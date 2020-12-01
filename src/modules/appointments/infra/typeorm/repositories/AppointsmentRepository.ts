@@ -62,8 +62,6 @@ class AppointmentsRespository implements IAppointmentsRepository {
     });
 
     return appointments;
-
-    return appointments;
   }
 
   public async create({
