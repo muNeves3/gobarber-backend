@@ -70,3 +70,8 @@
 - O usuário não pode agendar em um horário já ocupado;
 - O usuário não pode agendar em um horário que já passou;
 - O usuário não pode agendar serviços consigo mesmo;
+
+
+Fala, pessoal!  Eu estava fazendo a aula "Rotas e controllers", do módulo "continuando o back-end do app" quando tive um problema ao testar as rotas criadas, no insomnia. Até onde eu vi, o codigo parece correto, e os testes estão indo normalmente, mas sempre que tento criar um agendamento pelo insomnia, aparece o erro da imagem:  
+
+ ![Captura de Tela-20201201150017-1046x678.png](https://xesque.rocketseat.dev/forum/1606846061610-Captura-de-Tela-20201201150017-1046x678.png)
