@@ -1,14 +1,13 @@
-import { inject, injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { getHours, isAfter } from 'date-fns';
 
-// import User from '@modules/users/infra/typeorm/entities/User';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
   provider_id: string;
+  day: number;
   month: number;
   year: number;
-  day: number;
 }
 
 type IResponse = Array<{
@@ -17,7 +16,7 @@ type IResponse = Array<{
 }>;
 
 @injectable()
-class ListProviderDayAvailabilityService {
+class ListProvidersDayAvailabilityService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
@@ -25,16 +24,16 @@ class ListProviderDayAvailabilityService {
 
   public async execute({
     provider_id,
-    year,
-    month,
     day,
+    month,
+    year,
   }: IRequest): Promise<IResponse> {
     const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
       {
         provider_id,
-        year,
-        month,
         day,
+        month,
+        year,
       },
     );
 
@@ -44,6 +43,7 @@ class ListProviderDayAvailabilityService {
       { length: 10 },
       (_, index) => index + hourStart,
     );
+
     const currentDate = new Date(Date.now());
 
     const availability = eachHourArray.map(hour => {
@@ -51,11 +51,11 @@ class ListProviderDayAvailabilityService {
         appointment => getHours(appointment.date) === hour,
       );
 
-      const comapareDate = new Date(year, month - 1, day, hour);
+      const compareDate = new Date(year, month - 1, day, hour);
 
       return {
         hour,
-        available: !hasAppointmentInHour && isAfter(comapareDate, currentDate),
+        available: !hasAppointmentInHour && isAfter(compareDate, currentDate),
       };
     });
 
@@ -63,4 +63,4 @@ class ListProviderDayAvailabilityService {
   }
 }
 
-export default ListProviderDayAvailabilityService;
+export default ListProvidersDayAvailabilityService;
